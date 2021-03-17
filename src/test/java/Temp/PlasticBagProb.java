@@ -18,32 +18,34 @@ class PlasticBagProb
     a1.add(1.01f);
     a1.add(1.01f);
     a1.add(2.01f);
-    a1.add(2.51f);
+    a1.add(1.51f);
     a1.add(0.61f);
     System.out.println("List of Bags:"+a1);
-    int count=0;
-    float sum=0f;
-    for(int i=0;i<a1.size();i++)
-    {
-        sum=sum+a1.get(i);
-        //System.out.println(sum);
-        if(sum==3f)
-        {
-            count++;
-            sum=0f;
-        }
-        if(sum>=3f)
-        {
-            sum=sum-a1.get(i);
-            if(sum<3f){
-            count++;
-            sum=0f;
-            i--;
-            }
-        }
+    int sizeOfArray=a1.size();
+    float baseweight=3f;
+    int bestFit=nextFit(a1, sizeOfArray, baseweight);
+    System.out.println("Number of bins required in Next Fit : " +bestFit);
     }
-    System.out.println("Minimum Times:"+(count+1));
 
+    static int nextFit(List<Float> weight, int n, float c)
+    {
+ 
+        // Initialize result (Count of bins) and remaining
+        // capacity in current bin.
+        int res = 0;
+        float bin_rem = c;
+ 
+        // Place items one by one
+        for (int i = 0; i < n; i++) {
+            // If this item can't fit in current bin
+            if (weight.get(i) > bin_rem) {
+                res++; // Use a new bin
+                bin_rem = c - weight.get(i);
+            }
+            else
+                bin_rem -= weight.get(i);
+        }
+        return res;
     }
     
 }
